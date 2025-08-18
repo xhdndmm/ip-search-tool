@@ -15,7 +15,7 @@ class IPQueryTool(QMainWindow):
         super().__init__()
         self.setWindowTitle("IP查询工具")
         self.setGeometry(300, 300, 900, 650)
-        self.setMinimumSize(800, 600)
+        self.setMinimumSize(800, 800)
 
         # 设置应用图标
         self.setWindowIcon(QIcon(self.create_icon()))
@@ -264,7 +264,7 @@ class IPQueryTool(QMainWindow):
         QMessageBox.information(
             self,
             "关于",
-            "IP-Search-Tool V1.0 \n https://github.com/xhdndmm/ip-search-tool"
+            "IP-Search-Tool v1.0 \n https://github.com/xhdndmm/ip-search-tool"
         )
 
 
