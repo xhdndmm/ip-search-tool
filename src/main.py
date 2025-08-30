@@ -203,6 +203,31 @@ class IPQueryTool(QMainWindow):
         except Exception as e:
             self.result_text.setText(f"查询失败: {str(e)}")
             self.statusBar().showMessage("查询失败", 3000)
+    def classify_ip(self, data: dict) -> str:
+        isp = (data.get("isp") or "").lower()
+        org = (data.get("organization") or "").lower()
+        asn_org = (data.get("asn_organization") or "").lower()
+
+        text = f"{isp} {org} {asn_org}"
+
+        # 常见云服务商关键字
+        cloud_keywords = ["alibaba", "amazon", "aws", "google", "azure", "microsoft",
+                          "digitalocean", "ovh", "linode", "vultr", "hetzner", "gcore", "akamai"]
+        mobile_keywords = ["mobile", "wireless", "lte", "4g", "5g", "cmcc", "docomo", "vodafone"]
+        residential_keywords = ["telecom", "telecomunicaciones", "broadband", "cable",
+                                "comcast", "spectrum", "unicom", "电信", "联通", "移动"]
+        edu_keywords = ["university", "college", "school", "教育网", "campus"]
+
+        if any(k in text for k in cloud_keywords):
+            return "数据中心 / 云服务"
+        elif any(k in text for k in mobile_keywords):
+            return "移动网络"
+        elif any(k in text for k in edu_keywords):
+            return "教育/科研网络"
+        elif any(k in text for k in residential_keywords):
+            return "家宽/住宅宽带"
+        else:
+            return "未知/通用网络"
 
     def display_results(self, data, title):
         if not data:
@@ -239,6 +264,14 @@ class IPQueryTool(QMainWindow):
                     <td style='padding:8px; border-bottom:1px solid #3498db;'>{value}</td>
                 </tr>
                 """
+        ip_type = self.classify_ip(data)
+        result += f"""
+        <tr>
+            <td style='padding:8px; border-bottom:1px solid #3498db; width:30%; color:#3498db;'>IP类型</td>
+            <td style='padding:8px; border-bottom:1px solid #3498db;'>{ip_type}</td>
+        </tr>
+        """
+
         result += "</table>"
         self.result_text.setHtml(result)
 
@@ -250,6 +283,7 @@ class IPQueryTool(QMainWindow):
             self.map_view.setUrl(QUrl(map_url))
         else:
             self.map_view.setHtml("<h3 style='color:white; text-align:center;'>无地图数据</h3>")
+
 
     def copy_results(self):
         """复制结果到剪贴板"""
