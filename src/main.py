@@ -1,12 +1,11 @@
 import sys
-import json
 import requests
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QTextEdit, QGroupBox, QMessageBox
 )
 from PyQt6.QtGui import QFont, QIcon, QPixmap, QColor
-from PyQt6.QtCore import Qt, QSize, QUrl
+from PyQt6.QtCore import Qt,QUrl
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 
 
@@ -298,7 +297,7 @@ class IPQueryTool(QMainWindow):
         QMessageBox.information(
             self,
             "关于",
-            "IP-Search-Tool v1.0 \n https://github.com/xhdndmm/ip-search-tool"
+            "IP-Search-Tool v1.1 \n https://github.com/xhdndmm/ip-search-tool"
         )
 
 
